@@ -1,4 +1,3 @@
-# wordcombine.py - Simple program to split words at their vowels and generate random combinations of these parts
 import sys
 import numpy as np
 from numpy.core.numerictypes import maximum_sctype

@@ -1,6 +1,7 @@
 # wordcombine.py - Simple program to split words at their vowels and generate random combinations of these part
 import sys
 import numpy as np
+from numpy.core.numerictypes import maximum_sctype
 
 def position_of_first_vowel(word):
   for index, char in enumerate(word):
@@ -13,11 +14,16 @@ def print_list(array):
         print(*x, sep=" ")
 
 def generate_parts(word_list, num_parts):
-    # 2d list
+    # 2d list, rows for each word, columns for each part
     parts_list = [["" for x in range(num_parts)]for y in range(len(word_list))]
+    #keep tally of the highest number of parts seen
+    max_parts=0
     for row, word in enumerate(word_list):
+        seen_parts=0
         for col in range(0,num_parts):
+
             vowel = position_of_first_vowel(word)
+
             # handle the lest letter(s) after the last vowel
             if vowel==-1:
                 if word=="":
@@ -25,6 +31,7 @@ def generate_parts(word_list, num_parts):
                 else:
                     parts_list[row][col]=word
                     word=""
+                    seen_parts+=1
                     break
 
             else:
@@ -32,7 +39,11 @@ def generate_parts(word_list, num_parts):
                 parts_list[row][col] = word[0:vowel+1]
                 #print(word[0:vowel+1])
                 word = word[vowel+1:]
-    return parts_list
+                seen_parts+=1
+                
+        max_parts=max(max_parts,seen_parts)
+    
+    return parts_list, min(num_parts, max_parts)
 
 def make_words(part_list, num_parts, num_words):
     for x in range(num_words):
@@ -52,15 +63,16 @@ def main():
         filename = input("Input the Filename: ")
     else:
         filename= sys.argv[1]
-    max_parts = 5
+    #Default limit to the number of parts
+    num_parts = 5
 
     try:
         with open(filename) as example_file:
             example_list = [line.lower().rstrip('\r\n') for line in example_file]
 
-        p_list = generate_parts(example_list, max_parts)
+        p_list, num_parts = generate_parts(example_list, num_parts)
 
-        make_words(p_list, max_parts, 10)
+        make_words(p_list, num_parts, 10)
 
         example_file.close()
     except:

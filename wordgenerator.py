@@ -99,7 +99,7 @@ def main(args):
         add_vowels=False
     
     try:
-        with open(filename) as example_file:
+        with open(filename, encoding="utf-8") as example_file:
             example_list = [line.lower().rstrip('\r\n') for line in example_file]
 
         p_list, num_parts = generate_parts(example_list, num_parts)

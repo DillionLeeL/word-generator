@@ -1,6 +1,6 @@
 #wordgenerator.py
 
-Simple program to split words at their vowels and generate random combinations of these parts.
+Program to split words at their vowels and generate random combinations of these parts.
 Good for creative writing, placeholder names, brainstorming.
 ****************************************************
 Input: text file of sample words, newline delimited
